@@ -74,31 +74,38 @@ generator client {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  name     String?
-  posts    Post[]
-  comments Comment[]
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  password      String    @default("123456")
+  name          String?
+  profile_image String?
+  bio           String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  posts         Post[]
+  comments      Comment[]
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean   @default(false)
-  author    User      @relation(fields: [authorId], references: [id])
-  authorId  Int
-  comments  Comment[]
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String?
+  image_url   String?
+  published   Boolean   @default(false)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    Int
+  comments    Comment[]
 }
 
 model Comment {
-  id        Int     @id @default(autoincrement())
-  title     String
+  id        Int       @id @default(autoincrement())
   content   String
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
+  created_at DateTime  @default(now())
+  author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
-  post      Post    @relation(fields: [postId], references: [id])
+  post      Post      @relation(fields: [postId], references: [id])
   postId    Int
 }
 
